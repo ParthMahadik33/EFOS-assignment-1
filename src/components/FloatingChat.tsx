@@ -1,5 +1,4 @@
 import { useEffect } from "react";
-import { generateChatbaseToken } from "@/lib/api/chatbase.functions";
 
 // Extend window to include Chatbase function
 declare global {
@@ -29,22 +28,6 @@ export function FloatingChat() {
             return (...args: unknown[]) => target(prop, ...args);
           },
         });
-      }
-
-      // Try to generate and identify with token if secret is configured
-      try {
-        const result = await generateChatbaseToken({
-          data: {
-            userId: undefined, // Add user ID if available
-            email: undefined, // Add user email if available
-          },
-        });
-
-        if (result.token) {
-          window.chatbase?.("identify", { token: result.token });
-        }
-      } catch (error) {
-        console.log("Chatbase token generation skipped (no secret configured)");
       }
 
       // Load Chatbase embed script
